@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nezzixccc — S W G A </title>
+  <style type="text/css">@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}</style>
+  <link rel="icon" href="https://videos.openai.com/vg-assets/assets%2Ftask_01jx7gv9azexgvzmcd2ec7v0g0%2F1749378036_img_2.webp?st=2025-06-08T08%3A47%3A57Z&se=2025-06-14T09%3A47%3A57Z&sks=b&skt=2025-06-08T08%3A47%3A57Z&ske=2025-06-14T09%3A47%3A57Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=pLueatjd6m57CvW9edaSWZv%2BAeL1F3GB6qPY9DnVwqo%3D&az=oaivgprodscus" type="image/png">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #030303;
+      font-family: 'JetBrains Mono', monospace;
+      color: white;
+      overflow: hidden;
+    }
+#play-button {
+  background: rgba(52, 52, 52, 0.15);
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  width: 32px !important;
+  height: 32px !important;
+  transition: background-color 0.3s ease;
+}
+
+#play-button:hover {
+  background: rgba(60, 60, 60, 0.5);
+}
+
+    .stars-layer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(8, 8, 8, 0.9);
+      backdrop-filter: blur(0.1px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .loading-screen p {
+      font-size: 3.5rem;
+      color: white;
+      user-select: none;
+      margin: 0;
+      animation: clickPulse 1.2s infinite alternate ease-in-out;
+    }
+
+    @keyframes clickPulse {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    .profile-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    .profile-container.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .bounce-animation {
+      animation: bounceFadeInUp 1s ease forwards;
+    }
+
+    @keyframes bounceFadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      60% { opacity: 1; transform: translateY(-10px); }
+      80% { transform: translateY(5px); }
+      100% { transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(5, 5, 5, 0.08);
+      border-radius: 24px;
+      padding: 40px 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      transition: box-shadow 0.3s ease;
+      margin-bottom: 20px;
+      max-width: 420px;
+      width: 90vw;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 20px #000000;
+    }
+
+    .avatar-wrapper {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 30px;
+      overflow: hidden;
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+
+    .username {
+      font-weight: 900;
+      font-size: 2.8rem;
+      letter-spacing: 0.03em;
+      user-select: none;
+      text-align: center;
+      color: white;
+      text-shadow: 0 0 12px #ffffff;
+      animation: pulseOpacity 1.2s infinite alternate ease-in-out;
+    }
+
+    .username span {
+      color: #5865F2;
+      margin-right: 6px;
+      font-weight: 900;
+      text-shadow: 0 0 12px #5865F2;
+    }
+
+    @keyframes pulseOpacity {
+      0% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    .typing-note {
+      font-size: 1rem;
+      color: #999;
+      text-align: center;
+      margin: 12px auto 24px;
+      font-weight: 400;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #5865F2;
+      width: 0ch;
+      display: block;
+      max-width: 100%;
+      animation: typing 4s steps(19) infinite, blink 0.8s step-end infinite;
+    }
+
+    @keyframes typing {
+      0% { width: 0ch; }
+      40% { width: 19ch; }
+      80% { width: 19ch; }
+      100% { width: 0ch; }
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #5865F2; }
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 14px;
+      color: white;
+      font-size: 1.15rem;
+      padding: 14px 0;
+      margin-bottom: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 0 8px #010101;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      text-align: center;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .button:hover {
+      background: rgba(88, 101, 242, 0.95);
+      box-shadow: 0 0 18px #5865F2;
+    }
+
+    .music-player {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .music-player img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .track-info {
+      flex-grow: 1;
+    }
+
+    .track-info p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #333;
+      border-radius: 4px;
+      margin: 6px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #5865F2;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px 2px #5865F2;
+      border-radius: 4px;
+    }
+
+    .satisfied-note {
+      font-size: 0.85rem;
+      color: #bbb;
+      text-align: center;
+      margin-top: 12px;
+      font-weight: 500;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .satisfied-note img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .star, .cursor-star {
+      position: fixed;
+      pointer-events: none;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 6px white;
+      z-index: 0;
+    }
+
+    .star {
+      top: -10px;
+      animation: fall linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    .cursor-star {
+      animation: cursorFall 1.2s ease-out forwards;
+      opacity: 0.9;
+      filter: blur(0.4px);
+    }
+
+    @keyframes cursorFall {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(20px) scale(0.3); }
+    }
+
+    @media (max-width: 400px) {
+      .username { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars-layer" id="stars-layer"><div class="star" style="left: 52.3406vw; width: 2.53327px; height: 2.53327px; animation-duration: 3.79301s;"></div><div class="star" style="left: 72.3005vw; width: 2.22449px; height: 2.22449px; animation-duration: 3.62919s;"></div><div class="star" style="left: 59.8175vw; width: 3.41103px; height: 3.41103px; animation-duration: 4.56365s;"></div><div class="star" style="left: 30.0943vw; width: 3.30481px; height: 3.30481px; animation-duration: 3.54235s;"></div><div class="star" style="left: 9.86984vw; width: 3.01286px; height: 3.01286px; animation-duration: 3.25831s;"></div><div class="star" style="left: 51.956vw; width: 2.08245px; height: 2.08245px; animation-duration: 3.98157s;"></div><div class="star" style="left: 94.4306vw; width: 2.87393px; height: 2.87393px; animation-duration: 5.80326s;"></div><div class="star" style="left: 16.7859vw; width: 2.76868px; height: 2.76868px; animation-duration: 4.93108s;"></div><div class="star" style="left: 53.6413vw; width: 2.45143px; height: 2.45143px; animation-duration: 3.55022s;"></div><div class="star" style="left: 46.311vw; width: 3.61563px; height: 3.61563px; animation-duration: 3.68464s;"></div><div class="star" style="left: 87.3757vw; width: 2.70784px; height: 2.70784px; animation-duration: 3.13446s;"></div><div class="star" style="left: 57.4386vw; width: 2.79388px; height: 2.79388px; animation-duration: 4.45572s;"></div><div class="star" style="left: 20.7405vw; width: 2.58451px; height: 2.58451px; animation-duration: 5.18079s;"></div><div class="star" style="left: 97.5788vw; width: 3.81851px; height: 3.81851px; animation-duration: 3.57824s;"></div><div class="star" style="left: 80.0163vw; width: 3.67731px; height: 3.67731px; animation-duration: 5.0852s;"></div><div class="star" style="left: 1.73vw; width: 3.39147px; height: 3.39147px; animation-duration: 5.89066s;"></div><div class="star" style="left: 18.6866vw; width: 3.11243px; height: 3.11243px; animation-duration: 3.87037s;"></div><div class="star" style="left: 92.1993vw; width: 2.31928px; height: 2.31928px; animation-duration: 3.14609s;"></div><div class="star" style="left: 11.4372vw; width: 3.15082px; height: 3.15082px; animation-duration: 4.34234s;"></div><div class="star" style="left: 43.8791vw; width: 3.63029px; height: 3.63029px; animation-duration: 5.62865s;"></div><div class="star" style="left: 31.0424vw; width: 3.744px; height: 3.744px; animation-duration: 5.68329s;"></div><div class="star" style="left: 45.0226vw; width: 3.97056px; height: 3.97056px; animation-duration: 5.86805s;"></div><div class="star" style="left: 66.6563vw; width: 2.24829px; height: 2.24829px; animation-duration: 3.06074s;"></div><div class="star" style="left: 85.5815vw; width: 2.2005px; height: 2.2005px; animation-duration: 5.52115s;"></div><div class="star" style="left: 6.14717vw; width: 2.34567px; height: 2.34567px; animation-duration: 5.48635s;"></div><div class="star" style="left: 30.0233vw; width: 3.30454px; height: 3.30454px; animation-duration: 5.40353s;"></div><div class="star" style="left: 90.695vw; width: 2.76324px; height: 2.76324px; animation-duration: 4.17893s;"></div><div class="star" style="left: 70.5627vw; width: 2.95408px; height: 2.95408px; animation-duration: 4.95394s;"></div><div class="star" style="left: 55.819vw; width: 2.17224px; height: 2.17224px; animation-duration: 5.22002s;"></div><div class="star" style="left: 58.198vw; width: 3.63165px; height: 3.63165px; animation-duration: 4.40588s;"></div><div class="star" style="left: 69.6404vw; width: 3.30795px; height: 3.30795px; animation-duration: 4.60324s;"></div><div class="star" style="left: 64.0008vw; width: 3.12146px; height: 3.12146px; animation-duration: 3.26685s;"></div><div class="star" style="left: 57.1997vw; width: 3.06614px; height: 3.06614px; animation-duration: 5.3297s;"></div></div>
+
+  <div class="loading-screen" id="loading-screen" style="display: none;">
+    <p>Это что, пасхалка?</p>
+  </div>
+
+  <div class="profile-container active fade-in-up" id="profile-content">
+    <div class="card">
+      <div class="avatar-wrapper">
+        <img src="https://i.imgur.com/9kIpD7e.gif" alt="Avatar">
+      </div>
+
+      <div class="username bounce-animation"><span>$</span>nezzixccc</div>
+      <div class="typing-note">Your mom loves me.</div>
+
+      <a href="https://discord.com/users/1355506304226951289" class="button" target="_blank">Discord</a>
+      <a href="https://t.me/disconnect_dev" class="button" target="_blank">Telegram</a>
+      <a href="https://github.com/disconnect-dev" class="button" target="_blank">GitHub</a>
+      <a href="https://discord.gg/P4HE9jt4" class="button" target="_blank">Graveborn</a>
+
+      <div class="music-player">
+        <img src="https://cdnimg.zaycev.net/commonImage/album/track/116005/square250.webp" alt="Xavier Wulf">
+        <div class="track-info">
+          <p><strong>Тп на аме</strong></p>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 1.77296%;"></div>
+          </div>
+          <p style="font-size: 0.8rem; color: #ccc;">
+            <span id="current-time">0:01</span> / <span id="duration">02:35</span>
+          </p>
+        </div>
+        <img src="ic_fluent_play_24_regular-256.webp" width="20" height="20" alt="Play" id="play-button" style="cursor: pointer;">
+      </div>
+
+      <div class="satisfied-note">
+        
+      </div>
+
+      <audio id="player" src="ok.MP3"></audio>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    const loadingScreen = document.getElementById('loading-screen');
+    const profileContent = document.getElementById('profile-content');
+    const player = document.getElementById('player');
+
+    loadingScreen.addEventListener('click', () => {
+      loadingScreen.style.display = 'none';
+      profileContent.classList.add('active', 'fade-in-up');
+      const username = document.querySelector('.username');
+      username.classList.add('bounce-animation');
+      player.play();
+    });
+
+    function createFallingStar() {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      const size = Math.random() * 2 + 2;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.getElementById('stars-layer').appendChild(star);
+      setTimeout(() => star.remove(), 6000);
+    }
+    setInterval(createFallingStar, 150);
+
+    document.addEventListener('mousemove', (e) => {
+      const star = document.createElement('div');
+      star.className = 'cursor-star';
+      const size = Math.random() * 1 + 0.5;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.left = e.clientX + (Math.random() * 4 - 2) + 'px';
+      star.style.top = e.clientY + (Math.random() * 4 - 2) + 'px';
+      document.getElementById('stars-layer').appendChild(star);
+      setTimeout(() => star.remove(), 1200);
+    });
+
+    const playBtn = document.getElementById('play-button');
+    const progressFill = document.getElementById('progress-fill');
+    const currentTimeSpan = document.getElementById('current-time');
+    const durationSpan = document.getElementById('duration');
+
+    let isPlaying = false;
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = Math.floor(seconds % 60);
+      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        player.pause();
+      } else {
+        player.play();
+      }
+    });
+
+    player.addEventListener('play', () => {
+      isPlaying = true;
+      playBtn.src = 'https://cdn3.iconfinder.com/data/icons/fluent-regular-24px-vol-5/24/ic_fluent_pause_24_regular-256.png'; // Pause 
+    });
+
+    player.addEventListener('pause', () => {
+      isPlaying = false;
+      playBtn.src = 'https://cdn3.iconfinder.com/data/icons/fluent-regular-24px-vol-5/24/ic_fluent_play_24_regular-256.png'; // Play 
+    });
+
+    player.addEventListener('timeupdate', () => {
+      const progressPercent = (player.currentTime / player.duration) * 100 || 0;
+      progressFill.style.width = progressPercent + '%';
+      currentTimeSpan.textContent = formatTime(player.currentTime);
+    });
+
+    player.addEventListener('loadedmetadata', () => {
+      durationSpan.textContent = formatTime(player.duration);
+    });
+  </script>
+</body></html>
