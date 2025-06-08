@@ -26,7 +26,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* Мобильные стили */
     @media (max-width: 768px) {
       body {
         overflow: auto;
@@ -67,7 +66,6 @@
       padding: 0 20px;
     }
 
-    /* Мобильная версия loading screen */
     @media (max-width: 768px) {
       .loading-screen p {
         font-size: 2.5rem;
@@ -98,7 +96,6 @@
       padding: 20px;
     }
 
-    /* Мобильная версия контейнера */
     @media (max-width: 768px) {
       .profile-container {
         position: relative;
@@ -148,7 +145,6 @@
       width: 90vw;
     }
 
-    /* Мобильная версия карточки */
     @media (max-width: 768px) {
       .card {
         width: 95vw;
@@ -178,7 +174,6 @@
       overflow: hidden;
     }
 
-    /* Мобильная версия аватара */
     @media (max-width: 768px) {
       .avatar-wrapper {
         width: 140px;
@@ -214,7 +209,6 @@
       animation: pulseOpacity 1.2s infinite alternate ease-in-out;
     }
 
-    /* Мобильная версия имени */
     @media (max-width: 768px) {
       .username {
         font-size: 2.2rem;
@@ -260,7 +254,6 @@
       animation: typing 4s steps(19) infinite, blink 0.8s step-end infinite;
     }
 
-    /* Мобильная версия печатного текста */
     @media (max-width: 768px) {
       .typing-note {
         font-size: 0.9rem;
@@ -309,7 +302,6 @@
       touch-action: manipulation;
     }
 
-    /* Мобильная версия кнопок */
     @media (max-width: 768px) {
       .button {
         font-size: 1.1rem;
@@ -334,7 +326,6 @@
       transform: translateY(-2px);
     }
 
-    /* Мобильные касания */
     @media (max-width: 768px) {
       .button:active {
         transform: scale(0.98);
@@ -357,7 +348,6 @@
       position: relative;
     }
 
-    /* Мобильная версия плеера */
     @media (max-width: 768px) {
       .music-player {
         padding: 14px;
@@ -384,7 +374,6 @@
       object-fit: cover;
     }
 
-    /* Мобильная версия изображений плеера */
     @media (max-width: 768px) {
       .music-player img {
         width: 55px;
@@ -410,7 +399,6 @@
       font-size: 0.95rem;
     }
 
-    /* Мобильная версия информации о треке */
     @media (max-width: 768px) {
       .track-info p {
         font-size: 0.9rem;
@@ -433,7 +421,6 @@
       cursor: pointer;
     }
 
-    /* Мобильная версия прогресс-бара */
     @media (max-width: 480px) {
       .progress-bar {
         height: 8px;
@@ -461,7 +448,6 @@
       touch-action: manipulation;
     }
 
-    /* Мобильная версия кнопки воспроизведения */
     @media (max-width: 768px) {
       #play-button {
         width: 36px !important;
@@ -534,14 +520,12 @@
       100% { opacity: 0; transform: translateY(20px) scale(0.3); }
     }
 
-    /* Убираем cursor-star на мобильных устройствах */
     @media (max-width: 768px) {
       .cursor-star {
         display: none;
       }
     }
 
-    /* Дополнительные стили для очень маленьких экранов */
     @media (max-width: 360px) {
       .card {
         padding: 20px 10px;
@@ -557,7 +541,6 @@
       }
     }
 
-    /* Стили для landscape ориентации на мобильных */
     @media (max-width: 768px) and (orientation: landscape) {
       .profile-container {
         padding-top: 10px;
@@ -625,7 +608,6 @@
     const profileContent = document.getElementById('profile-content');
     const player = document.getElementById('player');
 
-    // Показать loading screen на мобильных
     if (window.innerWidth <= 768) {
       loadingScreen.style.display = 'flex';
     } else {
@@ -639,7 +621,6 @@
       const username = document.querySelector('.username');
       username.classList.add('bounce-animation');
       
-      // Попытка автовоспроизведения с обработкой ошибок
       player.play().catch(e => {
         console.log('Автовоспроизведение заблокировано:', e);
       });
@@ -658,7 +639,6 @@
     }
     setInterval(createFallingStar, 150);
 
-    // Убираем cursor-star на мобильных
     if (window.innerWidth > 768) {
       document.addEventListener('mousemove', (e) => {
         const star = document.createElement('div');
@@ -697,7 +677,6 @@
       }
     });
 
-    // Кликабельный прогресс-бар
     progressBar.addEventListener('click', (e) => {
       const rect = progressBar.getBoundingClientRect();
       const percent = (e.clientX - rect.left) / rect.width;
@@ -724,7 +703,6 @@
       durationSpan.textContent = formatTime(player.duration);
     });
 
-    // Предотвращение зума при двойном тапе на iOS
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
       const now = (new Date()).getTime();
@@ -734,7 +712,6 @@
       lastTouchEnd = now;
     }, false);
 
-    // Обработка изменения ориентации
     window.addEventListener('orientationchange', function() {
       setTimeout(function() {
         window.scrollTo(0, 0);
